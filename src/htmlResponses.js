@@ -3,12 +3,13 @@ const fs = require('fs')
 const index = fs.readFileSync(`${__dirname}/../client/client.html`);
 const css = fs.readFileSync(`${__dirname}/../client/style.css`);
 
+//our general response function, i'm exporting it out of here for use later
 function respond(request, response, status, content, type) {
     response.writeHead(status, {
         'Content-Type': type,
         'Content-Length': Buffer.byteLength(content, 'utf8')
     });
-    response.write(content);
+    if(request.method !== "HEAD") response.write(content);
     response.end();
 }
 
@@ -21,5 +22,6 @@ function getCSS(request, response){
 
 module.exports = {
     getIndex,
-    getCSS
+    getCSS,
+    respond
 }
