@@ -18,5 +18,10 @@
     "pretest": "eslint ./src --fix",
     "test": "echo \"All tests completed\"",
     "start": "node ./src/server.js"
+  },
+  "dependencies": {
+    "@eslint/js": "^10.0.1",
+    "eslint": "^10.0.0",
+    "globals": "^17.3.0"
   }
 }
