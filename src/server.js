@@ -80,7 +80,6 @@ function onRequest(request, response) {
     const protocol = request.connection.encrypted ? 'https' : 'http';
     const parsedUrl = new URL(request.url, `${protocol}://${request.headers.host}`);
 
-    console.log(parsedUrl)
     if(request.method === "POST") {
         return handlePost(request, response, parsedUrl);
     }
