@@ -30,7 +30,7 @@ function parseBody(request, response, handler) {
 
     //send back the completed body
     request.on('end', () => {
-        const bodyString = Buffer.concat(body).toString;
+        const bodyString = Buffer.concat(body).toString();
         const type = request.headers['content-type'];
 
         if(type === 'application/x-www-form-urlencoded') {
@@ -80,6 +80,7 @@ function onRequest(request, response) {
     const protocol = request.connection.encrypted ? 'https' : 'http';
     const parsedUrl = new URL(request.url, `${protocol}://${request.headers.host}`);
 
+    console.log(parsedUrl)
     if(request.method === "POST") {
         return handlePost(request, response, parsedUrl);
     }

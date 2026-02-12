@@ -6,6 +6,91 @@
   
   <script>
 
+    async function handleResponse(response) {
+      const content = document.querySelector('#content');
+
+      switch(response.status) {
+        case 200:
+          content.innerHTML = '<b>Success</b>'
+          break;
+        case 201:
+          content.innerHTML = '<b>Created</b>'
+          break;
+        case 204:
+          content.innerHTML = '<b>Updated (No Content)</b>'
+          break;
+        case 400:
+          content.innerHTML = '<b>Bad Request</b>'
+          break;
+        case 404:
+          content.innerHTML = '<b>Not Found</b>'
+          break;
+        default: 
+          content.innerHTML = '<b>Status code not implemented by client</b>'
+      }
+
+      const responseObj = await response.json();
+      if(responseObj.message) {
+        content.innerHTML += `<p>Message: ${responseObj.message}</p>`
+      }
+      else {
+        content.innerHTML += `<p>${JSON.stringify(responseObj.users)}</p>`
+      }
+    }
+
+    async function sendPost (nameForm) {
+      const url = nameForm.getAttribute('action');
+      const method = nameForm.getAttribute('method');
+
+      const name = nameForm.querySelector('#nameField').value;
+      const age = nameForm.querySelector('#ageField').value;
+
+      let formData = JSON.stringify({name, age});
+
+      const response = await fetch(url, {
+        method,
+        headers: {
+          'Content-Type': 'application/json',
+          'Content-Length': formData.length,
+          'Accept': 'application/json'
+        },
+        body: formData
+      });
+
+      handleResponse(response)
+    }
+
+    async function sendGet(userForm) {
+      const url = userForm.querySelector('#urlField').value;
+      const method = userForm.querySelector('#methodSelect').value;
+
+      const response = await fetch(url, {
+        method,
+        headers: {
+          'Accept': 'application/json'
+        },
+      })
+      handleResponse(response)
+    }
+
+    function init() {
+      const nameForm = document.querySelector("#nameForm");
+      const userForm = document.querySelector("#userForm")
+
+      nameForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        sendPost(nameForm);
+        return false;
+      })
+
+      userForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        sendGet(userForm);
+        return false;
+      })
+    }
+
+    window.onload = init;
   </script>
 </head>
 <body>

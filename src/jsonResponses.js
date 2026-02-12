@@ -1,17 +1,15 @@
-import { respond } from "./htmlResponses.js"
+let r = require('./htmlResponses.js')
 
 const users = {}
 
 //get all users
 function getUsers(request, response) {
-    const responseJSON = {
-        users
-    }
+    const responseJSON = {users};
 
     //i was going to let respond pass in the request method to check whether or not it was a HEAD request
     //but then i realized that respond already has that method (it's in the request i'm sending it)
     //so i built all that into the function itself, one less parameter to worry about
-    respond(request, response, 200, responseJSON, 'application/json' /*, request.method === 'HEAD'*/);
+    r.respond(request, response, 200, responseJSON, 'application/json' /*, request.method === 'HEAD'*/);
 }
 
 //the not found checking function (routed to /notReal and can be visited directly)
@@ -20,7 +18,7 @@ function getNotFound(request, response) {
         message: "The page you were looking for was not found.",
         id: 'notFound'
     }
-    respond(request, response, 404, errorResp, 'application/json')
+    r.respond(request, response, 404, errorResp, 'application/json')
 }
 
 //adds a user to the users object above
@@ -36,7 +34,7 @@ function addUser(request, response) {
     //if we don't have the name or the age send them a bad request
     if(!name || !age) {
         responseJSON.id = 'addUserMissingParams'
-        return respond(request, response, 400, responseJSON, "application/json")
+        return r.respond(request, response, 400, responseJSON, "application/json")
     }
     
     //start with a 204 response code
@@ -55,11 +53,11 @@ function addUser(request, response) {
     //now check if we made a new user and break out with a 201 response
     if(responseCode === 201) {
         responseJSON.message = 'User added successfully'
-        return respond(request, response, responseCode, responseJSON, 'application/json')
+        return r.respond(request, response, responseCode, responseJSON, 'application/json')
     }
 
     //204s reach here, and they have no return body
-    return respond(request, response, responseCode, {}, 'application/json')
+    return r.respond(request, response, responseCode, {}, 'application/json')
 }
 
 module.exports = {
