@@ -1,0 +1,22 @@
+{
+  "name": "http-api-assignment-ii",
+  "version": "1.0.0",
+  "description": "",
+  "homepage": "https://github.com/chum-bot/http-api-assignment-ii#readme",
+  "bugs": {
+    "url": "https://github.com/chum-bot/http-api-assignment-ii/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chum-bot/http-api-assignment-ii.git"
+  },
+  "license": "UNLICENSED",
+  "author": "Zach Etienne",
+  "type": "commonjs",
+  "main": "./src/server.js",
+  "scripts": {
+    "pretest": "eslint ./src --fix",
+    "test": "echo \"All tests completed\"",
+    "start": "node ./src/server.js"
+  }
+}
